@@ -14,17 +14,17 @@ var listingsData = [{
     city: 'Ridgewood',
     state: 'NY',
     rooms: 3,
-    price: 220000,
+    price: 2200,
     floorSpace: 2000,
     extras: ['elevator', 'gym'],
-    homeType: 'Apartment',
+    homeType: 'Ranch',
     image: 'https://images1.apartments.com/i2/xK1fTqYgboEiGFIsME-ScfOhwuxbbwpjriBmpzAMsrM/117/grand-reserve-katy-tx-aura-grand.jpg'
 }, {
     address: '2 abel st',
     city: 'Buffalo',
     state: 'NY',
     rooms: 2,
-    price: 24666,
+    price: 2466,
     floorSpace: 1430,
     extras: ['elevator', 'gym'],
     homeType: 'Apartment',
@@ -34,7 +34,7 @@ var listingsData = [{
     city: 'Ridgewood',
     state: 'VA',
     rooms: 1,
-    price: 345355,
+    price: 34535,
     floorSpace: 2400,
     extras: ['elevator', 'gym'],
     homeType: 'Apartment',
@@ -44,37 +44,37 @@ var listingsData = [{
     city: 'Orlando',
     state: 'FL',
     rooms: 3,
-    price: 220000,
+    price: 22000,
     floorSpace: 2000,
     extras: ['elevator', 'gym'],
-    homeType: 'Apartment',
+    homeType: 'Ranch',
     image: 'https://s-ec.bstatic.com/images/hotel/max1024x768/914/91481398.jpg'
 }, {
     address: '420 high st',
     city: 'Ridgewood',
     state: 'NY',
     rooms: 3,
-    price: 220000,
+    price: 2240,
     floorSpace: 2000,
     extras: ['elevator', 'gym'],
-    homeType: 'Apartment',
+    homeType: 'Condo',
     image: 'https://pix10.agoda.net/hotelImages/270861/-1/17fddabe9b7369b03266c6019282db29.jpg?s=1024x768'
 }, {
     address: '640 main st',
     city: 'Jersey City',
     state: 'NJ',
     rooms: 3,
-    price: 11343,
+    price: 1134,
     floorSpace: 1000,
     extras: ['elevator', 'gym'],
-    homeType: 'Apartment',
+    homeType: 'Condo',
     image: 'https://cdn.freshome.com/wp-content/uploads/2018/02/studio-intro.jpg'
 }, {
     address: '730 gates ave',
     city: 'San Francisco',
     state: 'CA',
     rooms: 3,
-    price: 220000,
+    price: 22020,
     floorSpace: 2000,
     extras: ['elevator', 'gym'],
     homeType: 'Apartment',
@@ -138,6 +138,9 @@ var App = function (_Component) {
     _this.state = {
       name: 'Joe',
       listingsData: _listingsData2.default,
+      city: 'All',
+      homeType: 'All',
+      bedrooms: '0',
       min_price: 0,
       max_price: 100000,
       min_floor_space: 0,
@@ -145,10 +148,12 @@ var App = function (_Component) {
       elevator: false,
       finished_basement: false,
       gym: false,
-      swimming_pool: false
+      swimming_pool: false,
+      filteredData: _listingsData2.default
     };
 
     _this.change = _this.change.bind(_this);
+    _this.filteredData = _this.filteredData.bind(_this);
     return _this;
   }
 
@@ -162,6 +167,32 @@ var App = function (_Component) {
 
       this.setState(_defineProperty({}, name, value), function () {
         console.log(_this2.state);
+        _this2.filteredData();
+      });
+    }
+  }, {
+    key: 'filteredData',
+    value: function filteredData() {
+      var _this3 = this;
+
+      var newData = this.state.listingsData.filter(function (item) {
+        return item.price >= _this3.state.min_price && item.price <= _this3.state.max_price && item.floorSpace >= _this3.state.min_floor_space && item.floorSpace <= _this3.state.max_floor_space && item.rooms >= _this3.state.bedrooms;
+      });
+
+      if (this.state.city != 'All') {
+        newData = newData.filter(function (item) {
+          return item.city == _this3.state.city;
+        });
+      }
+
+      if (this.state.homeType != 'All') {
+        newData = newData.filter(function (item) {
+          return item.homeType == _this3.state.homeType;
+        });
+      }
+
+      this.setState({
+        filteredData: newData
       });
     }
   }, {
@@ -175,7 +206,7 @@ var App = function (_Component) {
           'section',
           { id: 'content-area' },
           _react2.default.createElement(_Filter2.default, { change: this.change, globalState: this.state }),
-          _react2.default.createElement(_Listings2.default, { listingsData: this.state.listingsData })
+          _react2.default.createElement(_Listings2.default, { listingsData: this.state.filteredData })
         )
       );
     }
@@ -243,8 +274,18 @@ var Filter = function (_Component) {
                         'Filter'
                     ),
                     _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'city' },
+                        'City'
+                    ),
+                    _react2.default.createElement(
                         'select',
-                        { name: 'neighbourhood', className: 'filters neighbourhood', onChange: this.props.change },
+                        { name: 'city', className: 'filters city', onChange: this.props.change },
+                        _react2.default.createElement(
+                            'option',
+                            { value: 'All' },
+                            'All'
+                        ),
                         _react2.default.createElement(
                             'option',
                             { value: 'Ridgewood' },
@@ -257,8 +298,18 @@ var Filter = function (_Component) {
                         )
                     ),
                     _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'homeType' },
+                        'Home Type'
+                    ),
+                    _react2.default.createElement(
                         'select',
-                        { name: 'housetype', className: 'filters housetype', onChange: this.props.change },
+                        { name: 'homeType', className: 'filters homeType', onChange: this.props.change },
+                        _react2.default.createElement(
+                            'option',
+                            { value: 'All' },
+                            'All Homes'
+                        ),
                         _react2.default.createElement(
                             'option',
                             { value: 'Ranch' },
@@ -276,27 +327,37 @@ var Filter = function (_Component) {
                         )
                     ),
                     _react2.default.createElement(
+                        'label',
+                        { htmlFor: 'bedrooms' },
+                        'Bedrooms'
+                    ),
+                    _react2.default.createElement(
                         'select',
                         { name: 'bedrooms', className: 'filters bedrooms', onChange: this.props.change },
                         _react2.default.createElement(
                             'option',
+                            { value: '0' },
+                            '0+ BR'
+                        ),
+                        _react2.default.createElement(
+                            'option',
                             { value: '1' },
-                            '1 BR'
+                            '1+ BR'
                         ),
                         _react2.default.createElement(
                             'option',
                             { value: '2' },
-                            '2 BR'
+                            '2+ BR'
                         ),
                         _react2.default.createElement(
                             'option',
                             { value: '3' },
-                            '3 BR'
+                            '3+ BR'
                         ),
                         _react2.default.createElement(
                             'option',
                             { value: '4' },
-                            '4 BR'
+                            '4+ BR'
                         )
                     ),
                     _react2.default.createElement(
@@ -511,6 +572,10 @@ var Filter = function (_Component) {
     value: function loopListings() {
       var listingsData = this.props.listingsData;
 
+
+      if (listingsData == undefined || listingsData.length == 0) {
+        return 'Sorry your filter did not match any listing';
+      }
 
       return listingsData.map(function (listing, index) {
         return _react2.default.createElement(
