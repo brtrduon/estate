@@ -111,7 +111,7 @@ export default class Filter extends Component {
     return (
         <section id='listings'>
             <section className='search-area'>
-              <input type='text' name='search' />
+              <input type='text' name='search' onChange={this.props.change} />
             </section>
 
             <section className='sortby-area'>
@@ -122,8 +122,8 @@ export default class Filter extends Component {
                   <option value='price-asc'>Highest Price</option>
                 </select>
                 <div className='view'>
-                  <i className='fa fa-th-list' aria-hidden='true'></i>
-                  <i className='fa fa-th' aria-hidden='true'></i>
+                  <i className='fa fa-th-list' aria-hidden='true' onClick={this.props.changeView.bind(null, 'long')}></i>
+                  <i className='fa fa-th' aria-hidden='true' onClick={this.props.changeView.bind(null, 'box')}></i>
                 </div>
               </div>
             </section>

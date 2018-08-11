@@ -154,12 +154,14 @@ var App = function (_Component) {
       filteredData: _listingsData2.default,
       populateFormsData: '',
       sortby: 'price-dsc',
-      view: 'long'
+      view: 'box',
+      search: ''
     };
 
     _this.change = _this.change.bind(_this);
     _this.filteredData = _this.filteredData.bind(_this);
     _this.populateForms = _this.populateForms.bind(_this);
+    _this.changeView = _this.changeView.bind(_this);
     return _this;
   }
 
@@ -185,6 +187,13 @@ var App = function (_Component) {
       this.setState(_defineProperty({}, name, value), function () {
         console.log(_this2.state);
         _this2.filteredData();
+      });
+    }
+  }, {
+    key: 'changeView',
+    value: function changeView(viewName) {
+      this.setState({
+        view: viewName
       });
     }
   }, {
@@ -217,6 +226,18 @@ var App = function (_Component) {
       if (this.state.sortby == 'price-asc') {
         newData = newData.sort(function (a, b) {
           return b.price - a.price;
+        });
+      }
+
+      if (this.state.search != '') {
+        newData = newData.filter(function (item) {
+          var city = item.city.toLowerCase();
+          var searchText = _this3.state.search.toLowerCase();
+          var n = city.match(searchText);
+
+          if (n != null) {
+            return true;
+          }
         });
       }
 
@@ -280,7 +301,7 @@ var App = function (_Component) {
           'section',
           { id: 'content-area' },
           _react2.default.createElement(_Filter2.default, { change: this.change, globalState: this.state, populateAction: this.populateForms }),
-          _react2.default.createElement(_Listings2.default, { listingsData: this.state.filteredData, globalState: this.state, change: this.change })
+          _react2.default.createElement(_Listings2.default, { listingsData: this.state.filteredData, globalState: this.state, change: this.change, changeView: this.changeView })
         )
       );
     }
@@ -866,7 +887,7 @@ var Filter = function (_Component) {
         _react2.default.createElement(
           'section',
           { className: 'search-area' },
-          _react2.default.createElement('input', { type: 'text', name: 'search' })
+          _react2.default.createElement('input', { type: 'text', name: 'search', onChange: this.props.change })
         ),
         _react2.default.createElement(
           'section',
@@ -896,8 +917,8 @@ var Filter = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'view' },
-              _react2.default.createElement('i', { className: 'fa fa-th-list', 'aria-hidden': 'true' }),
-              _react2.default.createElement('i', { className: 'fa fa-th', 'aria-hidden': 'true' })
+              _react2.default.createElement('i', { className: 'fa fa-th-list', 'aria-hidden': 'true', onClick: this.props.changeView.bind(null, 'long') }),
+              _react2.default.createElement('i', { className: 'fa fa-th', 'aria-hidden': 'true', onClick: this.props.changeView.bind(null, 'box') })
             )
           )
         ),
