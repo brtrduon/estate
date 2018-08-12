@@ -738,7 +738,8 @@ var Filter = function (_Component) {
                         _react2.default.createElement(
                           'span',
                           null,
-                          '1000 ft\xB2'
+                          listing.floorSpace,
+                          ' \xB2'
                         )
                       ),
                       _react2.default.createElement(
@@ -748,7 +749,7 @@ var Filter = function (_Component) {
                         _react2.default.createElement(
                           'span',
                           null,
-                          listing.bedrooms,
+                          listing.rooms,
                           ' bedrooms'
                         )
                       )
@@ -833,7 +834,8 @@ var Filter = function (_Component) {
                       _react2.default.createElement(
                         'span',
                         null,
-                        '1000 ft\xB2'
+                        listing.floorSpace,
+                        ' ft\xB2'
                       )
                     ),
                     _react2.default.createElement(
@@ -843,7 +845,7 @@ var Filter = function (_Component) {
                       _react2.default.createElement(
                         'span',
                         null,
-                        listing.bedrooms,
+                        listing.rooms,
                         ' bedrooms'
                       )
                     )
@@ -895,7 +897,8 @@ var Filter = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'results' },
-            '390 results found'
+            this.props.globalState.filteredData.length,
+            ' results found'
           ),
           _react2.default.createElement(
             'div',
@@ -925,7 +928,11 @@ var Filter = function (_Component) {
         _react2.default.createElement(
           'section',
           { className: 'listings-results' },
-          this.loopListings()
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            this.loopListings()
+          )
         ),
         _react2.default.createElement(
           'section',

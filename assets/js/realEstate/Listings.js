@@ -38,11 +38,11 @@ export default class Filter extends Component {
                     <div className='listing-details'>
                       <div className='floor-space'>
                         <i className='fa fa-square-o' aria-hidden='true'></i>
-                        <span>1000 ft&sup2;</span>
+                        <span>{listing.floorSpace} &sup2;</span>
                       </div>
                       <div className='bedrooms'>
                         <i className='fa fa-bed' aria-hidden='true'></i>
-                        <span>{listing.bedrooms} bedrooms</span>
+                        <span>{listing.rooms} bedrooms</span>
                       </div>
                     </div>
                     <div className='view-btn'>
@@ -81,11 +81,11 @@ export default class Filter extends Component {
                   <div className='listing-details'>
                     <div className='floor-space'>
                       <i className='fa fa-square-o' aria-hidden='true'></i>
-                      <span>1000 ft&sup2;</span>
+                      <span>{listing.floorSpace} ft&sup2;</span>
                     </div>
                     <div className='bedrooms'>
                       <i className='fa fa-bed' aria-hidden='true'></i>
-                      <span>{listing.bedrooms} bedrooms</span>
+                      <span>{listing.rooms} bedrooms</span>
                     </div>
                   </div>
                   <div className='view-btn'>
@@ -115,7 +115,7 @@ export default class Filter extends Component {
             </section>
 
             <section className='sortby-area'>
-              <div className='results'>390 results found</div>
+              <div className='results'>{this.props.globalState.filteredData.length} results found</div>
               <div className='sort-options'>
                 <select name='sortby' className='sortby' onChange={this.props.change}>
                   <option value='price-dsc'>Lowest Price</option>
@@ -129,7 +129,9 @@ export default class Filter extends Component {
             </section>
 
             <section className='listings-results'>
-              {this.loopListings()}
+              <div className='row'>
+                {this.loopListings()}
+              </div>
             </section>
             
             <section id='pagination'>
